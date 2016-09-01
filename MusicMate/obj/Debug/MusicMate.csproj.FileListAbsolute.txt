@@ -1,0 +1,58 @@
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\MusicMate.exe.config
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\MusicMate.exe
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\MusicMate.pdb
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.csprojResolveAssemblyReference.cache
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MainWindow.g.cs
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\App.g.cs
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.cache
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.lref
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MainWindow.baml
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.g.resources
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.Properties.Resources.resources
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.GenerateResource.Cache
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.exe
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.pdb
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.dll
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.pdb
+c:\users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.xml
+C:\Users\fanta\documents\visual studio 2015\Projects\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.ResolveComReference.cache
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.exe.config
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.ResolveComReference.cache
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.exe
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.pdb
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.exe
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.pdb
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csprojResolveAssemblyReference.cache
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MainWindow.g.cs
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\App.g.cs
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.cache
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.lref
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MainWindow.baml
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.g.resources
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.Properties.Resources.resources
+C:\Users\Mark\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.GenerateResource.Cache
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.exe.config
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.ResolveComReference.cache
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.exe
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.pdb
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.exe
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\MusicMate.pdb
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.dll
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\bin\Debug\HtmlAgilityPack.xml
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csprojResolveAssemblyReference.cache
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MainWindow.g.cs
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\App.g.cs
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.cache
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate_MarkupCompile.lref
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MainWindow.baml
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.g.resources
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.Properties.Resources.resources
+C:\Users\fanta\Documents\GitHub\MusicMate\MusicMate\MusicMate\obj\Debug\MusicMate.csproj.GenerateResource.Cache
+C:\Users\fanta\Source\Repos\Musicinus\MusicMate\bin\Debug\MusicMate.exe.config
+C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.csproj.ResolveComReference.cache
+C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.exe
+C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.pdb

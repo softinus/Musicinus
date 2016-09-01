@@ -1,0 +1,30 @@
+﻿<Window x:Class="MusicMate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicMate"
+        xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="522.188" Width="938.75" Loaded="Window_Loaded">
+    <Grid>
+        <TextBox x:Name="txtID" HorizontalAlignment="Left" Height="23" Margin="743,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Height="23"/>
+        <PasswordBox x:Name="txtPW" HorizontalAlignment="Left" Height="23" Margin="743,38,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="lblPW" Content="PW" HorizontalAlignment="Left" Margin="700,38,0,0" VerticalAlignment="Top" Height="23"/>
+        <Button x:Name="btnSignin" Content="SignIn" HorizontalAlignment="Left" Margin="868,10,0,0" VerticalAlignment="Top" Width="54" Height="51" Click="btnSignin_Click" IsEnabled="False"/>
+        <ListView x:Name="lstFavorites" Margin="10,10,0,9.8" HorizontalAlignment="Left" Width="663">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <WindowsFormsHost x:Name="webHost" Margin="700,168,10,9.8" Height="0" Width="0">
+            <winforms:WebBrowser x:Name="webTool" NewWindow="webTool_NewWindow"/>
+        </WindowsFormsHost>
+        <Button x:Name="btnGetList" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>
+        <Label x:Name="lblStatus" Content="" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222"/>
+
+    </Grid>
+</Window>
