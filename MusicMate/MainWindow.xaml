@@ -10,7 +10,7 @@
     <Grid>
         <TextBox x:Name="txtID" HorizontalAlignment="Left" Height="23" Margin="743,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Height="23"/>
-        <PasswordBox x:Name="txtPW" HorizontalAlignment="Left" Height="23" Margin="743,38,0,0" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="txtPW" HorizontalAlignment="Left" Height="23" Margin="743,38,0,0" VerticalAlignment="Top" Width="120" KeyDown="txtPW_KeyDown"/>
         <Label x:Name="lblPW" Content="PW" HorizontalAlignment="Left" Margin="700,38,0,0" VerticalAlignment="Top" Height="23"/>
         <Button x:Name="btnSignin" Content="SignIn" HorizontalAlignment="Left" Margin="868,10,0,0" VerticalAlignment="Top" Width="54" Height="51" Click="btnSignin_Click" IsEnabled="False"/>
         <ListView x:Name="lstFavorites" Margin="10,10,0,9.8" HorizontalAlignment="Left" Width="663">

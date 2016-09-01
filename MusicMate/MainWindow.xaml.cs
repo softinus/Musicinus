@@ -26,7 +26,9 @@ namespace MusicMate
     {
         public string Name { get; set; }
         public string Artist { get; set; }
+        public string Album { get; set; }
     }
+
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -39,54 +41,7 @@ namespace MusicMate
             SetBrowserFeatureControl();
             InitializeComponent();
             LoginStatus = ELoginStatus.NotReady;
-        }
 
-
-        public enum ELoginStatus
-        {
-            NotReady= 0,
-            Ready,
-            BeingProcessed,
-            Logined
-        }
-
-        private ELoginStatus m_eLoginStatus = ELoginStatus.NotReady;  // login status;
-        public ELoginStatus LoginStatus
-        {
-            get { return m_eLoginStatus; }
-            set
-            {
-                m_eLoginStatus = value;
-                lblStatus.Content = value.ToString();
-            }
-        }
-
-        private void btnSignin_Click(object sender, RoutedEventArgs e)
-        {
-            txtID.IsEnabled = txtPW.IsEnabled = false;
-            
-            LoginStatus = ELoginStatus.BeingProcessed;
-            HtmlElement btnElement1 = webTool.Document.GetElementById("id");
-            HtmlElement btnElement2 = webTool.Document.GetElementById("pwd");
-
-            btnElement1.Focus();
-            SendKeys.SendWait(txtID.Text);
-            btnElement2.Focus();
-            SendKeys.SendWait(txtPW.Password);
-            HtmlElement btnElement3 = webTool.Document.GetElementById("btnLogin");
-            btnElement3.InvokeMember("click");
-
-            //lstFavorites.Items.Clear();
-            //GetFavoriteSongList();
-        }
-
-        private void btnGetList_Click(object sender, RoutedEventArgs e)
-        {
-            GetFavoriteSongList();
-        }
-
-        private void GetFavoriteSongList()
-        {
             // Add columns
             var gridView = new GridView();
             this.lstFavorites.View = gridView;
@@ -100,54 +55,88 @@ namespace MusicMate
                 Header = "Artist",
                 DisplayMemberBinding = new System.Windows.Data.Binding("Artist")
             });
-
-            // Populate list
-            HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument document = web.Load("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey=" + strMemberkey);
-            //http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey=7605160&orderBy=SUMM_CNT
-            HtmlNode[] nodes = document.DocumentNode.SelectNodes("//tbody//a").ToArray();
-
-            string strName = string.Empty;
-            string strArtist = string.Empty;
-            foreach (HtmlNode item in nodes)
+            gridView.Columns.Add(new GridViewColumn
             {
-                if (item.InnerText.Contains("상세"))
-                    continue;
+                Header = "Album",
+                DisplayMemberBinding = new System.Windows.Data.Binding("Album")
+            });
+        }
 
-                bool isAlreadyIncluded = false;
-                foreach (SongListItem LSI in lstFavorites.Items)
+
+        #region propperty for login status
+        public enum ELoginStatus
+        {
+            NotReady= 0,
+            ReadyToFind,
+            BeingProcessed,
+            SeekingYourMusicRoom,
+            SeekingYourFavoriteMusics,
+            EverythingFound,
+            FailedWrongPassword,
+            FailedExpireID
+        }
+
+        private ELoginStatus m_eLoginStatus = ELoginStatus.NotReady;  // login status;
+        public ELoginStatus LoginStatus
+        {
+            get { return m_eLoginStatus; }
+            set
+            {
+                m_eLoginStatus = value;
+                lblStatus.Content = value.ToString();
+            }
+        }
+        #endregion
+
+        private IEnumerable<HtmlElement> ElementsByClass(System.Windows.Forms.HtmlDocument doc, string className)
+        {
+            foreach (HtmlElement e in doc.All)
+                if (e.GetAttribute("className") == className)
+                    yield return e;
+        }
+
+        private void Login()
+        {
+            txtID.IsEnabled = txtPW.IsEnabled = false;
+
+            LoginStatus = ELoginStatus.BeingProcessed;
+            HtmlElement btnElement1 = webTool.Document.GetElementById("id");
+            HtmlElement btnElement2 = webTool.Document.GetElementById("pwd");
+
+            btnElement1.Focus();
+            SendKeys.SendWait(txtID.Text);
+            btnElement2.Focus();
+            SendKeys.SendWait(txtPW.Password);
+            HtmlElement btnElement3 = webTool.Document.GetElementById("btnLogin");
+            btnElement3.InvokeMember("click");
+        }
+
+        private void btnSignin_Click(object sender, RoutedEventArgs e)
+        {
+            this.Login();
+        }
+
+        private void btnGetList_Click(object sender, RoutedEventArgs e)
+        {
+            GetFavoriteSongList();
+        }
+
+        private void GetFavoriteSongList()
+        {
+            // Populate list
+            List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
+            foreach (HtmlElement EI in arrElements)
+            {
+                List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("a").Cast<HtmlElement>());
+                if (arrElements2.Count == 5)
                 {
-                    if (string.Compare(LSI.Name, item.InnerText) == 0)
-                        isAlreadyIncluded = true;
-
-                    if (string.Compare(LSI.Artist, item.InnerText) == 0)
-                        isAlreadyIncluded = true;
-                }
-
-                if (string.Compare(strName, item.InnerText) == 0)
-                    isAlreadyIncluded = true;
-
-                if (isAlreadyIncluded)
-                    continue;
-
-
-                if (string.IsNullOrEmpty(strName) && string.IsNullOrEmpty(strArtist))
-                {
-                    strName = item.InnerText;
-                }
-                else if (string.IsNullOrEmpty(strName) == false && string.IsNullOrEmpty(strArtist))
-                {
-                    strArtist = item.InnerText;
-                }
-
-                // if both are not empty add one songlist in listview
-                if (string.IsNullOrEmpty(strName) == false && string.IsNullOrEmpty(strArtist) == false)
-                {
-                    this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist });
-                    strName = string.Empty;
-                    strArtist = string.Empty;
+                    string strName = arrElements2[1].InnerText;
+                    string strArtist = arrElements2[2].InnerText;
+                    string strAlbum = arrElements2[4].InnerText;
+                    this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum});
                 }
             }
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -171,44 +160,58 @@ namespace MusicMate
 
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            LoginStatus = ELoginStatus.Ready;
+            LoginStatus = ELoginStatus.ReadyToFind;
             btnSignin.IsEnabled = true;
             string strURL = webTool.Url.ToString();
 
             if (strURL == "https://member.melon.com/muid/web/login/login_inform.htm")
             {
-
+                List<HtmlElement> arrElements = ElementsByClass(webTool.Document, "txt_error").ToList();
+                if (arrElements.Count != 0)
+                {   // if there's error, prints error context and enable id, pw input box again.
+                    System.Windows.MessageBox.Show(arrElements[0].InnerText);
+                    txtID.IsEnabled = txtPW.IsEnabled = true;
+                    txtPW.Focus();
+                    txtPW.SelectAll();
+                    LoginStatus = ELoginStatus.FailedWrongPassword;
+                }
             }
             if (strURL == "http://www.melon.com/")
             {
-                webTool.Navigate("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey=7605160");
-                //object result= webTool.Document.InvokeScript("MELON.WEBSVC.POC.menu.goMyMusicMain()"
-                //    , new String[] { "LOG_PRT_CODE=1&MENU_PRT_CODE=0&MENU_ID_LV1=&CLICK_AREA_PRT_CODE=S01&ACTION_AF_CLICK=V1" });
-
-                //if(result == null)
-                //{
-                //    System.Windows.MessageBox.Show(result.ToString());
-                //}
+                LoginStatus = ELoginStatus.SeekingYourMusicRoom;
+                this.webTool.Navigate("javascript: MELON.WEBSVC.POC.menu.goMyMusicMain();");
             }
-            else if(strURL.Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
+            else if (strURL.Contains("http://www.melon.com/mymusic/main/mymusicmain_list.htm?memberKey="))
             {
-                LoginStatus = ELoginStatus.Logined;
+                LoginStatus = ELoginStatus.SeekingYourFavoriteMusics;
                 int nIndexOfDelm = strURL.IndexOf('=') + 1;
                 strMemberkey = strURL.Substring(nIndexOfDelm, strURL.Length - nIndexOfDelm);
+                
+                webTool.Navigate("javascript: mymusic.mymusicLink.goLikeSong('"+ strMemberkey + "');");
+            }
+            else if (strURL.Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
+            {
+                LoginStatus = ELoginStatus.EverythingFound;
 
+                webTool.Navigate("javascript: pageObj.sendPage('41');");
                 btnGetList.IsEnabled = !string.IsNullOrEmpty(strMemberkey);
-                //System.Windows.MessageBox.Show(strMemberkey);
+            }
+            else if (strURL.Contains("https://member.melon.com/muid/web/login/login_informExpire.htm"))
+            {
+                LoginStatus = ELoginStatus.FailedExpireID;
 
-                //var result= InvokeScript();
-                //if (result == null)
-                //{
-                //    System.Windows.MessageBox.Show(result.ToString());
-                //}
+                System.Windows.MessageBox.Show("비밀번호를 5회 이상 잘못 입력하셨습니다.\n홈페이지에서 비밀번호 찾기를 통해 본인확인 후 비밀번호를 재설정하여 이용하시기 바랍니다.\n변경 후, 프로그램은 재시작해주세요.");
+            }
+                
+            else
+            {
+                Debug.Print(strURL);
             }
             //HtmlElement btnElement2 = webTool.Document.All.GetElementsByName("memberPwd")[0];
             //var document = webTool.Document;
         }
 
+        #region Browser feature controls
         private void SetBrowserFeatureControl()
         {
             // http://msdn.microsoft.com/en-us/library/ee330720(v=vs.85).aspx
@@ -235,10 +238,21 @@ namespace MusicMate
                 key.SetValue(appName, (UInt32)value, RegistryValueKind.DWord);
             }
         }
+        #endregion
 
         private void webTool_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        // while enter the password, press enter.
+        private void txtPW_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                this.Login();
+                //Console.WriteLine("Entered the password");
+            }
         }
     }
 }
