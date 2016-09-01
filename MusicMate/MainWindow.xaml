@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MusicMate"
         xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="MainWindow" Height="522.188" Width="938.75" Loaded="Window_Loaded">
+        Title="MusicMate" Height="522.188" Width="938.75" Loaded="Window_Loaded">
     <Grid>
         <TextBox x:Name="txtID" HorizontalAlignment="Left" Height="23" Margin="743,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Height="23"/>

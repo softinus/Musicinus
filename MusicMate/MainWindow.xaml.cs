@@ -62,6 +62,13 @@ namespace MusicMate
             });
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.webTool.ScriptErrorsSuppressed = true;
+            webTool.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
+            webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");   // login page
+        }
+
 
         #region propperty for login status
         public enum ELoginStatus
@@ -72,7 +79,7 @@ namespace MusicMate
             SeekingYourMusicRoom,
             SeekingYourFavoriteMusics,
             EverythingFound,
-            FailedWrongPassword,
+            FailedWrongIDorPassword,
             FailedExpireID
         }
 
@@ -98,6 +105,7 @@ namespace MusicMate
         private void Login()
         {
             txtID.IsEnabled = txtPW.IsEnabled = false;
+            btnSignin.IsEnabled = false;
 
             LoginStatus = ELoginStatus.BeingProcessed;
             HtmlElement btnElement1 = webTool.Document.GetElementById("id");
@@ -123,57 +131,54 @@ namespace MusicMate
 
         private void GetFavoriteSongList()
         {
-            // Populate list
-            List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
-            foreach (HtmlElement EI in arrElements)
+            const int nSongCountOfEachPage = 20;
+            int nTotalCount = Convert.ToInt32(webTool.Document.GetElementById("totCnt").InnerText);
+            int nPageCount = (int)Math.Ceiling((double)nTotalCount / nSongCountOfEachPage);
+            
+            for(int i=0; i<nPageCount; ++i)
             {
-                List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("a").Cast<HtmlElement>());
-                if (arrElements2.Count == 5)
+                webTool.Navigate("javascript: pageObj.sendPage('" + i * nSongCountOfEachPage + 1 + "');");
+
+                // Populate list
+                List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
+                foreach (HtmlElement EI in arrElements)
                 {
-                    string strName = arrElements2[1].InnerText;
-                    string strArtist = arrElements2[2].InnerText;
-                    string strAlbum = arrElements2[4].InnerText;
-                    this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum});
+                    List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("a").Cast<HtmlElement>());
+                    if (arrElements2.Count == 5)
+                    {
+                        string strName = arrElements2[1].InnerText;
+                        string strArtist = arrElements2[2].InnerText;
+                        string strAlbum = arrElements2[4].InnerText;
+                        this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
+                    }
                 }
-            }
+            }    
+
+            
 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.webTool.ScriptErrorsSuppressed = true;
-            webTool.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");   // login page
-        }
-
-        private object InvokeScript()
-        {
-            HtmlElement head = webTool.Document.GetElementsByTagName("head")[0];
-            HtmlElement scriptEl = webTool.Document.CreateElement("script");
-            IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
-            element.text = "function invoke(method, args) { var context = window;var namespace = method.split('.');var func = namespace.pop();    for (var i = 0; i < namespace.length; i++) { context = context[namespace[i]];} result = context[func].apply(context, args);}";
-            head.AppendChild(scriptEl);
-            var parameters = new object[] { "pageObj.sendPage", "21" };
-            var resultJson = webTool.Document.InvokeScript("invoke", parameters);
-            return resultJson;
-        }
+        
+        
 
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             LoginStatus = ELoginStatus.ReadyToFind;
-            btnSignin.IsEnabled = true;
+            
             string strURL = webTool.Url.ToString();
 
             if (strURL == "https://member.melon.com/muid/web/login/login_inform.htm")
             {
+                btnSignin.IsEnabled = true;
                 List<HtmlElement> arrElements = ElementsByClass(webTool.Document, "txt_error").ToList();
                 if (arrElements.Count != 0)
                 {   // if there's error, prints error context and enable id, pw input box again.
                     System.Windows.MessageBox.Show(arrElements[0].InnerText);
                     txtID.IsEnabled = txtPW.IsEnabled = true;
+                    btnSignin.IsEnabled = true;
                     txtPW.Focus();
                     txtPW.SelectAll();
-                    LoginStatus = ELoginStatus.FailedWrongPassword;
+                    LoginStatus = ELoginStatus.FailedWrongIDorPassword;
                 }
             }
             if (strURL == "http://www.melon.com/")
@@ -193,7 +198,6 @@ namespace MusicMate
             {
                 LoginStatus = ELoginStatus.EverythingFound;
 
-                webTool.Navigate("javascript: pageObj.sendPage('41');");
                 btnGetList.IsEnabled = !string.IsNullOrEmpty(strMemberkey);
             }
             else if (strURL.Contains("https://member.melon.com/muid/web/login/login_informExpire.htm"))
