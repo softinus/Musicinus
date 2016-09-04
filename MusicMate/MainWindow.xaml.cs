@@ -67,7 +67,10 @@ namespace MusicMate
             this.webTool.ScriptErrorsSuppressed = true;
             webTool.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
             webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");   // login page
-        }
+
+            //webTool.ProgressChanged += new WebBrowserProgressChangedEventHandler(_ie);
+
+    }
 
 
         #region propperty for login status
@@ -126,7 +129,28 @@ namespace MusicMate
 
         private void btnGetList_Click(object sender, RoutedEventArgs e)
         {
-            GetFavoriteSongList();
+            System.Windows.MessageBox.Show(GetTheFirstNumberOfSongOfCurrentList().ToString());
+        }
+
+        private int GetTheFirstNumberOfSongOfCurrentList()
+        {
+            if (webTool.Url.ToString().Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
+            {
+                string strNum = "";
+                // Populate list
+                List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
+                foreach (HtmlElement EI in arrElements)
+                {
+                    List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
+                    if (arrElements2.Count == 16 || arrElements2.Count == 19)
+                    {
+                        strNum = arrElements2[1].InnerText;
+                        break;
+                    }
+                }
+                return Convert.ToInt32(strNum);
+            }
+            return -1;
         }
 
         private void GetFavoriteSongList()
@@ -137,13 +161,25 @@ namespace MusicMate
             
             for(int i=0; i<nPageCount; ++i)
             {
-                webTool.Navigate("javascript: pageObj.sendPage('" + i * nSongCountOfEachPage + 1 + "');");
+                int TargetPage = (i * nSongCountOfEachPage + 1);
+                string str = "javascript: pageObj.sendPage('" + TargetPage + "');";
+                webTool.Navigate(str);
 
-                // Populate list
+                while (GetTheFirstNumberOfSongOfCurrentList() != TargetPage)
+                    System.Windows.Forms.Application.DoEvents();
+
+                //Thread.Sleep(500);
+                // Wait for control to load page
+                //while (webTool.ReadyState != WebBrowserReadyState.Complete)
+                //    System.Windows.Forms.Application.DoEvents();
+
+
+                    // Populate list
                 List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
                 foreach (HtmlElement EI in arrElements)
                 {
                     List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("a").Cast<HtmlElement>());
+                    List<HtmlElement> arrElements2_ = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
                     if (arrElements2.Count == 5)
                     {
                         string strName = arrElements2[1].InnerText;
@@ -165,7 +201,7 @@ namespace MusicMate
         {
             LoginStatus = ELoginStatus.ReadyToFind;
             
-            string strURL = webTool.Url.ToString();
+            string strURL = e.Url.ToString();
 
             if (strURL == "https://member.melon.com/muid/web/login/login_inform.htm")
             {
@@ -198,12 +234,15 @@ namespace MusicMate
             {
                 LoginStatus = ELoginStatus.EverythingFound;
 
+                GetFavoriteSongList();
+                //webTool.Navigate("javascript:pageObj.sendPage('21');");
+
                 btnGetList.IsEnabled = !string.IsNullOrEmpty(strMemberkey);
             }
             else if (strURL.Contains("https://member.melon.com/muid/web/login/login_informExpire.htm"))
             {
                 LoginStatus = ELoginStatus.FailedExpireID;
-
+                
                 System.Windows.MessageBox.Show("비밀번호를 5회 이상 잘못 입력하셨습니다.\n홈페이지에서 비밀번호 찾기를 통해 본인확인 후 비밀번호를 재설정하여 이용하시기 바랍니다.\n변경 후, 프로그램은 재시작해주세요.");
             }
                 
@@ -215,6 +254,35 @@ namespace MusicMate
             //var document = webTool.Document;
         }
 
+        //private void _ie(object sender, WebBrowserProgressChangedEventArgs e)
+        //{
+        //    int max = (int)Math.Max(e.MaximumProgress, e.CurrentProgress);
+        //    int min = (int)Math.Min(e.MaximumProgress, e.CurrentProgress);
+
+        //    PGB_browser.Maximum = e.MaximumProgress;
+        //    PGB_browser.Minimum = 0;
+        //    PGB_browser.Value = e.CurrentProgress;
+        //    if (min.Equals(max))
+        //    {
+        //        if (webTool.Url.ToString().Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
+        //        {
+        //            string strNum = "";
+        //            // Populate list
+        //            List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
+        //            foreach (HtmlElement EI in arrElements)
+        //            {
+        //                List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
+        //                if (arrElements2.Count == 16)
+        //                {
+        //                    strNum = arrElements2[1].InnerText;
+                            
+        //                }
+        //            }
+        //            System.Windows.MessageBox.Show(strNum);
+
+        //        }
+        //    }
+        //}
         #region Browser feature controls
         private void SetBrowserFeatureControl()
         {

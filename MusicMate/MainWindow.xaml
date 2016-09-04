@@ -20,11 +20,14 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <WindowsFormsHost x:Name="webHost" Margin="700,168,10,9.8" Height="0" Width="0">
+        <WindowsFormsHost x:Name="webHost" Margin="678,155,10,9.8">
             <winforms:WebBrowser x:Name="webTool" NewWindow="webTool_NewWindow"/>
         </WindowsFormsHost>
         <Button x:Name="btnGetList" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>
-        <Label x:Name="lblStatus" Content="" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222"/>
+        <Label x:Name="lblStatus" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222">
+
+        </Label>
+        <ProgressBar x:Name="PGB_browser" Margin="700,140,10,337.8"/>
 
     </Grid>
 </Window>
