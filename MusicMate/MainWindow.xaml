@@ -20,7 +20,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <WindowsFormsHost x:Name="webHost" Margin="678,155,10,9.8">
+        <WindowsFormsHost x:Name="webHost" Margin="678,155,10,9.8" Width="0">
             <winforms:WebBrowser x:Name="webTool" NewWindow="webTool_NewWindow"/>
         </WindowsFormsHost>
         <Button x:Name="btnGetList" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>

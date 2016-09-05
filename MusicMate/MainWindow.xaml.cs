@@ -81,6 +81,7 @@ namespace MusicMate
             BeingProcessed,
             SeekingYourMusicRoom,
             SeekingYourFavoriteMusics,
+            MakingListOfYourFavoriteSongs,
             EverythingFound,
             FailedWrongIDorPassword,
             FailedExpireID
@@ -158,7 +159,8 @@ namespace MusicMate
             const int nSongCountOfEachPage = 20;
             int nTotalCount = Convert.ToInt32(webTool.Document.GetElementById("totCnt").InnerText);
             int nPageCount = (int)Math.Ceiling((double)nTotalCount / nSongCountOfEachPage);
-            
+
+            PGB_browser.Maximum = nPageCount; 
             for(int i=0; i<nPageCount; ++i)
             {
                 int TargetPage = (i * nSongCountOfEachPage + 1);
@@ -168,10 +170,7 @@ namespace MusicMate
                 while (GetTheFirstNumberOfSongOfCurrentList() != TargetPage)
                     System.Windows.Forms.Application.DoEvents();
 
-                //Thread.Sleep(500);
-                // Wait for control to load page
-                //while (webTool.ReadyState != WebBrowserReadyState.Complete)
-                //    System.Windows.Forms.Application.DoEvents();
+                PGB_browser.Value = i;
 
 
                     // Populate list
@@ -188,8 +187,8 @@ namespace MusicMate
                         this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
                     }
                 }
-            }    
-
+            }
+            LoginStatus = ELoginStatus.EverythingFound;
             
 
         }
@@ -232,7 +231,7 @@ namespace MusicMate
             }
             else if (strURL.Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
             {
-                LoginStatus = ELoginStatus.EverythingFound;
+                LoginStatus = ELoginStatus.MakingListOfYourFavoriteSongs;
 
                 GetFavoriteSongList();
                 //webTool.Navigate("javascript:pageObj.sendPage('21');");
