@@ -249,39 +249,8 @@ namespace MusicMate
             {
                 Debug.Print(strURL);
             }
-            //HtmlElement btnElement2 = webTool.Document.All.GetElementsByName("memberPwd")[0];
-            //var document = webTool.Document;
         }
 
-        //private void _ie(object sender, WebBrowserProgressChangedEventArgs e)
-        //{
-        //    int max = (int)Math.Max(e.MaximumProgress, e.CurrentProgress);
-        //    int min = (int)Math.Min(e.MaximumProgress, e.CurrentProgress);
-
-        //    PGB_browser.Maximum = e.MaximumProgress;
-        //    PGB_browser.Minimum = 0;
-        //    PGB_browser.Value = e.CurrentProgress;
-        //    if (min.Equals(max))
-        //    {
-        //        if (webTool.Url.ToString().Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
-        //        {
-        //            string strNum = "";
-        //            // Populate list
-        //            List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
-        //            foreach (HtmlElement EI in arrElements)
-        //            {
-        //                List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
-        //                if (arrElements2.Count == 16)
-        //                {
-        //                    strNum = arrElements2[1].InnerText;
-                            
-        //                }
-        //            }
-        //            System.Windows.MessageBox.Show(strNum);
-
-        //        }
-        //    }
-        //}
         #region Browser feature controls
         private void SetBrowserFeatureControl()
         {
