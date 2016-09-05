@@ -70,3 +70,4 @@ C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MainWindow.baml
 C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.g.resources
 C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.Properties.Resources.resources
 C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\MusicMate.csproj.GenerateResource.Cache
+C:\Users\fanta\Source\Repos\Musicinus\MusicMate\obj\Debug\Dictionary1.baml

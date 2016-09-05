@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Win32;
 using mshtml;
+using MusicMate.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,6 +65,8 @@ namespace MusicMate
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.DataContext = new VM_Chart();
+
             this.webTool.ScriptErrorsSuppressed = true;
             webTool.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
             webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");   // login page
@@ -131,6 +134,7 @@ namespace MusicMate
         private void btnGetList_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.MessageBox.Show(GetTheFirstNumberOfSongOfCurrentList().ToString());
+            
         }
 
         private int GetTheFirstNumberOfSongOfCurrentList()
@@ -185,6 +189,7 @@ namespace MusicMate
                         string strArtist = arrElements2[2].InnerText;
                         string strAlbum = arrElements2[4].InnerText;
                         this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
+                        
                     }
                 }
             }
