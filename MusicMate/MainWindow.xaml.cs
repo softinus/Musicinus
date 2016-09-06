@@ -189,16 +189,51 @@ namespace MusicMate
                         string strArtist = arrElements2[2].InnerText;
                         string strAlbum = arrElements2[4].InnerText;
                         this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
-                        //VM_Chart. AnalData1.Add(new TestClass() { Category = "Globalization", Number = 75 });
-                        VM_Chart.AnalData1.Insert(0, new TestClass() { Category = "Globalization", Number = 75 });
+
+                        this.PortraingToTheDictionary(strName, strArtist);
+
+
                     }
                 }
             }
             LoginStatus = ELoginStatus.EverythingFound;
-            
 
+
+            foreach (KeyValuePair<string, int> entry in m_dArtistSeries)
+            {
+                // do something with entry.Value or entry.Key
+                VM_Chart.AnalData1.Add( new TestClass() { Category = entry.Key, Number = entry.Value });
+            }
+
+            
         }
 
+        private Dictionary<string, int> m_dArtistSeries = new Dictionary<string, int>();
+        private void PortraingToTheDictionary(String strName, String strArtist)
+        {//VM_Chart.AnalData1.Insert(0, new TestClass() { Category = "Globalization", Number = 75 });
+            //bool bAlreadyExist = false;
+            //foreach(TestClass TC in VM_Chart.AnalData1)
+            //{
+            //    if( strArtist == TC.Category)
+            //    {
+            //        bAlreadyExist = true;
+            //        break;
+            //    }
+            //}
+            int nValue;
+            if (m_dArtistSeries.TryGetValue(strArtist, out nValue))
+            {
+                Console.WriteLine("Fetched value: {0}", nValue);
+                m_dArtistSeries[strArtist] = nValue + 1;
+            }
+            else
+            {
+                Console.WriteLine("No such key: {0}", strArtist);
+                m_dArtistSeries.Add(strArtist, 1);
+            }
+
+            //if (bAlreadyExist == false)
+        }
         
         
 
