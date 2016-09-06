@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicMate"
         xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
         mc:Ignorable="d"
-        Title="MusicMate" Height="522.188" Width="938.75" Loaded="Window_Loaded">
+        Title="MusicMate" Height="522.188" Width="938.75" Loaded="Window_Loaded"
+        >
+
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+
     <Grid>
         <TextBox x:Name="txtID" HorizontalAlignment="Left" Height="23" Margin="743,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Height="23"/>
@@ -24,10 +38,25 @@
             <winforms:WebBrowser x:Name="webTool" NewWindow="webTool_NewWindow"/>
         </WindowsFormsHost>
         <Button x:Name="btnGetList" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>
-        <Label x:Name="lblStatus" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222">
+        <Label x:Name="lblStatus" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222" Height="42">
 
         </Label>
-        <ProgressBar x:Name="PGB_browser" Margin="700,140,10,337.8"/>
+        <ProgressBar x:Name="PGB_browser" Margin="700,91,0,0" Height="4" VerticalAlignment="Top" HorizontalAlignment="Left" Width="222"/>
 
+        <Grid  Margin="700,91,0,0" >
+        <chart:PieChart
+        Style="{StaticResource MinimalChartStyle}"
+        ChartTitle="My Favorite Artists"
+        ChartSubTitle="Your preference has analysed."
+        SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}">
+            <chart:PieChart.Series>
+                <chart:ChartSeries
+                SeriesTitle="Errors"
+                DisplayMember="Category"
+                ValueMember="Number"
+                ItemsSource="{Binding Path=Errors}" />
+            </chart:PieChart.Series>
+        </chart:PieChart>
+        </Grid>
     </Grid>
 </Window>
