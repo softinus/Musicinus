@@ -51,10 +51,10 @@
         SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}">
             <chart:PieChart.Series>
                 <chart:ChartSeries
-                SeriesTitle="Errors"
+                SeriesTitle="AnalData1"
                 DisplayMember="Category"
                 ValueMember="Number"
-                ItemsSource="{Binding Path=Errors}" />
+                ItemsSource="{Binding Path=AnalData1}" />
             </chart:PieChart.Series>
         </chart:PieChart>
         </Grid>

@@ -189,7 +189,8 @@ namespace MusicMate
                         string strArtist = arrElements2[2].InnerText;
                         string strAlbum = arrElements2[4].InnerText;
                         this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
-                        
+                        //VM_Chart. AnalData1.Add(new TestClass() { Category = "Globalization", Number = 75 });
+                        VM_Chart.AnalData1.Insert(0, new TestClass() { Category = "Globalization", Number = 75 });
                     }
                 }
             }
