@@ -7,7 +7,7 @@
         xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
         mc:Ignorable="d"
-        Title="MusicMate" Height="522.188" Width="938.75" Loaded="Window_Loaded"
+        Title="MusicMate" Height="522.188" Width="945.95" Loaded="Window_Loaded"
         >
 
 
@@ -43,20 +43,27 @@
         </Label>
         <ProgressBar x:Name="PGB_browser" Margin="700,91,0,0" Height="4" VerticalAlignment="Top" HorizontalAlignment="Left" Width="222"/>
 
-        <Grid  Margin="700,91,0,0" >
-        <chart:PieChart
+        <Grid Name="GridForPieChart" Margin="690,100,10,-9.2" Visibility="Collapsed" >
+            <chart:PieChart
         Style="{StaticResource MinimalChartStyle}"
         ChartTitle="My Favorite Artists"
         ChartSubTitle="Your preference has analysed."
         SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}">
-            <chart:PieChart.Series>
-                <chart:ChartSeries
+                <chart:PieChart.Series>
+                    <chart:ChartSeries
                 SeriesTitle="AnalData1"
                 DisplayMember="Category"
                 ValueMember="Number"
                 ItemsSource="{Binding Path=AnalData1}" />
-            </chart:PieChart.Series>
-        </chart:PieChart>
+                </chart:PieChart.Series>
+            </chart:PieChart>
         </Grid>
+        <ListView x:Name="lstAnal" Margin="700,162,0,12.8" HorizontalAlignment="Left" Width="222" Visibility="Hidden">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

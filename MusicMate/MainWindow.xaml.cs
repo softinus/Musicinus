@@ -182,7 +182,7 @@ namespace MusicMate
                 foreach (HtmlElement EI in arrElements)
                 {
                     List<HtmlElement> arrElements2 = new List<HtmlElement>(EI.GetElementsByTagName("a").Cast<HtmlElement>());
-                    List<HtmlElement> arrElements2_ = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
+                    //List<HtmlElement> arrElements2_ = new List<HtmlElement>(EI.GetElementsByTagName("div").Cast<HtmlElement>());
                     if (arrElements2.Count == 5)
                     {
                         string strName = arrElements2[1].InnerText;
@@ -190,7 +190,7 @@ namespace MusicMate
                         string strAlbum = arrElements2[4].InnerText;
                         this.lstFavorites.Items.Add(new SongListItem { Name = strName, Artist = strArtist, Album = strAlbum });
 
-                        this.PortraingToTheDictionary(strName, strArtist);
+                        this.RelectingToTheDictionary(strName, strArtist);
 
 
                     }
@@ -199,27 +199,29 @@ namespace MusicMate
             LoginStatus = ELoginStatus.EverythingFound;
 
 
-            foreach (KeyValuePair<string, int> entry in m_dArtistSeries)
-            {
-                // do something with entry.Value or entry.Key
-                VM_Chart.AnalData1.Add( new TestClass() { Category = entry.Key, Number = entry.Value });
-            }
+            var myList = m_dArtistSeries.ToList();
+            myList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
-            
+            int nCount = 0;
+            const int nMAX = 5;
+            foreach (KeyValuePair<string, int> entry in myList)
+            {
+                if (nMAX == nCount++)
+                    break;
+
+                VM_Chart.AnalData1.Add(new Artists() { Category = entry.Key, Number = entry.Value });
+            }
+            GridForPieChart.Visibility = Visibility.Visible;
+
+            //foreach (KeyValuePair<string, int> entry in m_dArtistSeries)
+            //VM_Chart.AnalData1.Add( new TestClass() { Category = entry.Key, Number = entry.Value });
+
+
         }
 
         private Dictionary<string, int> m_dArtistSeries = new Dictionary<string, int>();
-        private void PortraingToTheDictionary(String strName, String strArtist)
-        {//VM_Chart.AnalData1.Insert(0, new TestClass() { Category = "Globalization", Number = 75 });
-            //bool bAlreadyExist = false;
-            //foreach(TestClass TC in VM_Chart.AnalData1)
-            //{
-            //    if( strArtist == TC.Category)
-            //    {
-            //        bAlreadyExist = true;
-            //        break;
-            //    }
-            //}
+        private void RelectingToTheDictionary(String strName, String strArtist)
+        {
             int nValue;
             if (m_dArtistSeries.TryGetValue(strArtist, out nValue))
             {

@@ -4,7 +4,7 @@
                     xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart">
 
     <Style x:Key="MinimalChartStyle" TargetType="chart:ChartBase">
-        <Setter Property="Width" Value="222"/>
+        <Setter Property="Width" Value="242"/>
         <Setter Property="Height" Value="400"/>
     </Style>
 </ResourceDictionary>

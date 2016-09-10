@@ -10,16 +10,11 @@ namespace MusicMate.ViewModel
     // bind this view model to your page or window (DataContext)
     public class VM_Chart
     {
-        public static ObservableCollection<TestClass> AnalData1 { get; private set; }
+        public static ObservableCollection<Artists> AnalData1 { get; private set; }
 
         public VM_Chart()
         {
-            AnalData1 = new ObservableCollection<TestClass>();
-            //AnalData1.Add(new TestClass() { Category = "Globalization", Number = 75 });
-            //AnalData1.Add(new TestClass() { Category = "Features", Number = 2 });
-            //AnalData1.Add(new TestClass() { Category = "ContentTypes", Number = 12 });
-            //AnalData1.Add(new TestClass() { Category = "Correctness", Number = 83 });
-            //AnalData1.Add(new TestClass() { Category = "Best Practices", Number = 29 });
+            AnalData1 = new ObservableCollection<Artists>();
         }
 
         private object selectedItem = null;
@@ -38,7 +33,7 @@ namespace MusicMate.ViewModel
     }
 
     // class which represent a data point in the chart
-    public class TestClass
+    public class Artists
     {
         public string Category { get; set; }
 
