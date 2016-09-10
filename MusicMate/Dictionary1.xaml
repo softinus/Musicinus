@@ -5,6 +5,6 @@
 
     <Style x:Key="MinimalChartStyle" TargetType="chart:ChartBase">
         <Setter Property="Width" Value="242"/>
-        <Setter Property="Height" Value="400"/>
+        <Setter Property="Height" Value="300"/>
     </Style>
 </ResourceDictionary>

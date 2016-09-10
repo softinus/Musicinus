@@ -46,7 +46,7 @@
         </Label>
         <ProgressBar x:Name="PGB_browser" Margin="700,91,0,0" Height="4" VerticalAlignment="Top" HorizontalAlignment="Left" Width="222"/>
 
-        <Grid Name="GridForPieChart" Margin="690,100,10.2,-9.2" Visibility="Collapsed" Grid.ColumnSpan="2" >
+        <Grid Name="GridForPieChart" Margin="690,100,10.2,97.8" Visibility="Hidden" >
             <chart:PieChart
         Style="{StaticResource MinimalChartStyle}"
         ChartTitle="My Favorite Artists"

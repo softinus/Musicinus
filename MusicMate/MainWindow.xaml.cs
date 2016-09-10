@@ -35,6 +35,7 @@ namespace MusicMate
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool bMultipleScrapMode = false;
         bool bTryToStop = true;
         const string strInitURL = "https://member.melon.com/muid/web/login/login_inform.htm";
         private string strMemberkey = string.Empty;
@@ -99,16 +100,25 @@ namespace MusicMate
             {
                 m_eLoginStatus = value;
                 btnStatus.Content = value.ToString();
+                
+
+                if(value != ELoginStatus.NotReady)
+                {
+                    btnScrapMode.IsEnabled = true;
+                }
+
 
                 if(value == ELoginStatus.NotReady ||
                    value == ELoginStatus.ReadyToFind ||
                    value == ELoginStatus.EverythingFound)
                 {
                     btnScrapModeStop.IsEnabled = false;
+                    
                 }
                 else
                 {
                     btnScrapModeStop.IsEnabled = true;
+                    
                 }
             }
         }
@@ -153,17 +163,39 @@ namespace MusicMate
 
         private void btnScrapMode_Click(object sender, RoutedEventArgs e)
         {
-            
+            MutipleScrapByRange(520, 525);
         }
 
 
         private void btnScrapModeStop_Click(object sender, RoutedEventArgs e)
         {   // request to stop
             bTryToStop = true;
-            
         }
 
 
+        private void MutipleScrapByRange(int _nMin, int _nMax)
+        {
+            bMultipleScrapMode = true;
+            for (int i=_nMin; i<=_nMax; ++i)
+            {
+                //Thread.Sleep(2500);
+
+                ClearTheData();
+                LoginStatus = ELoginStatus.ReadyToFind;
+                
+                webTool.Navigate("http://www.melon.com/mymusic/main/mymusicmainother_list.htm?memberKey=" + i);
+
+                while (LoginStatus != ELoginStatus.EverythingFound) // wait until everything is done
+                    System.Windows.Forms.Application.DoEvents();
+            }
+            bMultipleScrapMode = false;
+        }
+
+        private void ClearTheData()
+        {
+            VM_Chart.AnalData1.Clear();
+            lstFavorites.Items.Clear();
+        }
 
         private int GetTheFirstNumberOfSongOfCurrentList()
         {
@@ -239,20 +271,24 @@ namespace MusicMate
             var myList = m_dArtistSeries.ToList();
             myList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
-            int nCount = 0;
-            const int nMAX = 5;
-            foreach (KeyValuePair<string, int> entry in myList)
+            // during the multiple scrapping mode, chart is disabled.
+            if(bMultipleScrapMode == false)
             {
-                if (nMAX == nCount++)
-                    break;
+                int nCount = 0;
+                const int nMAX = 5;
+                foreach (KeyValuePair<string, int> entry in myList)
+                {
+                    if (nMAX == nCount++)
+                        break;
 
-                VM_Chart.AnalData1.Add(new Artists() { Category = entry.Key, Number = entry.Value });
+                    VM_Chart.AnalData1.Add(new Artists() { Category = entry.Key, Number = entry.Value });
+                }
+                GridForPieChart.Visibility = Visibility.Visible;
+
+                //foreach (KeyValuePair<string, int> entry in m_dArtistSeries)
+                //VM_Chart.AnalData1.Add( new TestClass() { Category = entry.Key, Number = entry.Value });
+
             }
-            GridForPieChart.Visibility = Visibility.Visible;
-
-            //foreach (KeyValuePair<string, int> entry in m_dArtistSeries)
-            //VM_Chart.AnalData1.Add( new TestClass() { Category = entry.Key, Number = entry.Value });
-
 
         }
 
@@ -310,7 +346,7 @@ namespace MusicMate
                 LoginStatus = ELoginStatus.SeekingYourMusicRoom;
                 this.webTool.Navigate("javascript: MELON.WEBSVC.POC.menu.goMyMusicMain();");
             }
-            else if (strURL.Contains("http://www.melon.com/mymusic/main/mymusicmain_list.htm?memberKey="))
+            else if (strURL.Contains("http://www.melon.com/mymusic/main/mymusicmain_list.htm?memberKey="))  // when retreiving my music room
             {
                 LoginStatus = ELoginStatus.SeekingYourFavoriteMusics;
                 int nIndexOfDelm = strURL.IndexOf('=') + 1;
@@ -318,6 +354,15 @@ namespace MusicMate
                 txtUserInfo.Text = "Key : "+strMemberkey;
                 
                 webTool.Navigate("javascript: mymusic.mymusicLink.goLikeSong('"+ strMemberkey + "');");
+            }
+            else if (strURL.Contains("http://www.melon.com/mymusic/main/mymusicmainother_list.htm?memberKey=")) // when retreiving another melon user's music room
+            {
+                LoginStatus = ELoginStatus.SeekingYourFavoriteMusics;
+                int nIndexOfDelm = strURL.IndexOf('=') + 1;
+                strMemberkey = strURL.Substring(nIndexOfDelm, strURL.Length - nIndexOfDelm);
+                txtUserInfo.Text = "Key : " + strMemberkey;
+                
+                webTool.Navigate("javascript: mymusic.mymusicLink.goLikeSong('" + strMemberkey + "');");
             }
             else if (strURL.Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
             {
