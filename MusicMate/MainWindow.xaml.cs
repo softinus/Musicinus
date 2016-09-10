@@ -30,13 +30,14 @@ namespace MusicMate
         public string Album { get; set; }
     }
 
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string strMemberkey = string.Empty;
+        bool bTryToStop = true;
+        const string strInitURL = "https://member.melon.com/muid/web/login/login_inform.htm";
+        private string strMemberkey = string.Empty;
         public MainWindow()
         {
             SetBrowserFeatureControl();
@@ -69,7 +70,7 @@ namespace MusicMate
 
             this.webTool.ScriptErrorsSuppressed = true;
             webTool.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser_DocumentCompleted);
-            webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");   // login page
+            webTool.Navigate(strInitURL);   // login page
 
             //webTool.ProgressChanged += new WebBrowserProgressChangedEventHandler(_ie);
 
@@ -97,7 +98,18 @@ namespace MusicMate
             set
             {
                 m_eLoginStatus = value;
-                lblStatus.Content = value.ToString();
+                btnStatus.Content = value.ToString();
+
+                if(value == ELoginStatus.NotReady ||
+                   value == ELoginStatus.ReadyToFind ||
+                   value == ELoginStatus.EverythingFound)
+                {
+                    btnScrapModeStop.IsEnabled = false;
+                }
+                else
+                {
+                    btnScrapModeStop.IsEnabled = true;
+                }
             }
         }
         #endregion
@@ -108,6 +120,8 @@ namespace MusicMate
                 if (e.GetAttribute("className") == className)
                     yield return e;
         }
+
+
 
         private void Login()
         {
@@ -134,12 +148,30 @@ namespace MusicMate
         private void btnGetList_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.MessageBox.Show(GetTheFirstNumberOfSongOfCurrentList().ToString());
+        }
+
+
+        private void btnScrapMode_Click(object sender, RoutedEventArgs e)
+        {
             
         }
 
+
+        private void btnScrapModeStop_Click(object sender, RoutedEventArgs e)
+        {   // request to stop
+            bTryToStop = true;
+            
+        }
+
+
+
         private int GetTheFirstNumberOfSongOfCurrentList()
         {
-            if (webTool.Url.ToString().Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
+            if(webTool.Url.ToString().Contains(strInitURL))
+            {
+                LoginStatus = ELoginStatus.ReadyToFind;
+            }
+            else if (webTool.Url.ToString().Contains("http://www.melon.com/mymusic/like/mymusiclikesong_list.htm?memberKey="))
             {
                 string strNum = "";
                 // Populate list
@@ -167,6 +199,12 @@ namespace MusicMate
             PGB_browser.Maximum = nPageCount; 
             for(int i=0; i<nPageCount; ++i)
             {
+                if (bTryToStop)
+                {
+                    //webTool.Navigate("http://melon.com");
+                    return;
+                }
+
                 int TargetPage = (i * nSongCountOfEachPage + 1);
                 string str = "javascript: pageObj.sendPage('" + TargetPage + "');";
                 webTool.Navigate(str);
@@ -176,8 +214,7 @@ namespace MusicMate
 
                 PGB_browser.Value = i;
 
-
-                    // Populate list
+                // Populate list
                 List<HtmlElement> arrElements = new List<HtmlElement>(webTool.Document.GetElementsByTagName("tr").Cast<HtmlElement>());
                 foreach (HtmlElement EI in arrElements)
                 {
@@ -241,12 +278,17 @@ namespace MusicMate
 
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            LoginStatus = ELoginStatus.ReadyToFind;
+            //LoginStatus = ELoginStatus.ReadyToFind;
             
             string strURL = e.Url.ToString();
 
             if (strURL == "https://member.melon.com/muid/web/login/login_inform.htm")
             {
+                if(bTryToStop)
+                {
+                    bTryToStop = false;
+                    LoginStatus = ELoginStatus.ReadyToFind;
+                }
                 btnSignin.IsEnabled = true;
                 List<HtmlElement> arrElements = ElementsByClass(webTool.Document, "txt_error").ToList();
                 if (arrElements.Count != 0)
@@ -261,6 +303,10 @@ namespace MusicMate
             }
             if (strURL == "http://www.melon.com/")
             {
+                if(bTryToStop)
+                {
+                    webTool.Navigate("https://member.melon.com/muid/web/login/login_inform.htm");
+                }
                 LoginStatus = ELoginStatus.SeekingYourMusicRoom;
                 this.webTool.Navigate("javascript: MELON.WEBSVC.POC.menu.goMyMusicMain();");
             }
@@ -269,6 +315,7 @@ namespace MusicMate
                 LoginStatus = ELoginStatus.SeekingYourFavoriteMusics;
                 int nIndexOfDelm = strURL.IndexOf('=') + 1;
                 strMemberkey = strURL.Substring(nIndexOfDelm, strURL.Length - nIndexOfDelm);
+                txtUserInfo.Text = "Key : "+strMemberkey;
                 
                 webTool.Navigate("javascript: mymusic.mymusicLink.goLikeSong('"+ strMemberkey + "');");
             }
@@ -277,9 +324,8 @@ namespace MusicMate
                 LoginStatus = ELoginStatus.MakingListOfYourFavoriteSongs;
 
                 GetFavoriteSongList();
-                //webTool.Navigate("javascript:pageObj.sendPage('21');");
 
-                btnGetList.IsEnabled = !string.IsNullOrEmpty(strMemberkey);
+                //btnGetList.IsEnabled = !string.IsNullOrEmpty(strMemberkey);
             }
             else if (strURL.Contains("https://member.melon.com/muid/web/login/login_informExpire.htm"))
             {
@@ -337,5 +383,6 @@ namespace MusicMate
                 //Console.WriteLine("Entered the password");
             }
         }
+
     }
 }

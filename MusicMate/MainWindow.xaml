@@ -22,6 +22,9 @@
 
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="923*"/>
+        </Grid.ColumnDefinitions>
         <TextBox x:Name="txtID" HorizontalAlignment="Left" Height="23" Margin="743,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Height="23"/>
         <PasswordBox x:Name="txtPW" HorizontalAlignment="Left" Height="23" Margin="743,38,0,0" VerticalAlignment="Top" Width="120" KeyDown="txtPW_KeyDown"/>
@@ -34,16 +37,16 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <WindowsFormsHost x:Name="webHost" Margin="678,155,10,9.8" Width="0">
+        <WindowsFormsHost x:Name="webHost" Margin="804,155,119.2,9.8" Width="0">
             <winforms:WebBrowser x:Name="webTool" NewWindow="webTool_NewWindow"/>
         </WindowsFormsHost>
-        <Button x:Name="btnGetList" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>
+        <Button x:Name="btnStatus" Content="Get your list of favorite songs" HorizontalAlignment="Left" Margin="700,66,0,0" VerticalAlignment="Top" Width="222" Height="26" Click="btnGetList_Click" IsEnabled="False"/>
         <Label x:Name="lblStatus" HorizontalAlignment="Left" Margin="700,97,0,0" VerticalAlignment="Top" Width="222" Height="42">
 
         </Label>
         <ProgressBar x:Name="PGB_browser" Margin="700,91,0,0" Height="4" VerticalAlignment="Top" HorizontalAlignment="Left" Width="222"/>
 
-        <Grid Name="GridForPieChart" Margin="690,100,10,-9.2" Visibility="Collapsed" >
+        <Grid Name="GridForPieChart" Margin="690,100,10.2,-9.2" Visibility="Collapsed" Grid.ColumnSpan="2" >
             <chart:PieChart
         Style="{StaticResource MinimalChartStyle}"
         ChartTitle="My Favorite Artists"
@@ -65,5 +68,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="btnScrapMode" Content="Scrap all user's data" HorizontalAlignment="Left" Margin="810,424,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapMode_Click"/>
+        <Button x:Name="btnScrapModeStop" Content="Pause Scrapping" HorizontalAlignment="Left" Margin="810,454,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapModeStop_Click"/>
+        <TextBox x:Name="txtUserInfo" IsReadOnly="True" HorizontalAlignment="Left" Height="56" Margin="700,424,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104"/>
     </Grid>
 </Window>
