@@ -7,7 +7,7 @@
         xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
         mc:Ignorable="d"
-        Title="MusicMate" Height="522.188" Width="945.95" Loaded="Window_Loaded"
+        Title="MusicMate" Height="562.988" Width="945.95" Loaded="Window_Loaded"
         >
 
 
@@ -68,8 +68,20 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnScrapMode" Content="Scrap all user's data" HorizontalAlignment="Left" Margin="810,424,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapMode_Click"/>
-        <Button x:Name="btnScrapModeStop" Content="Pause Scrapping" HorizontalAlignment="Left" Margin="810,454,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapModeStop_Click"/>
-        <TextBox x:Name="txtUserInfo" IsReadOnly="True" HorizontalAlignment="Left" Height="56" Margin="700,424,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104"/>
+        <Button x:Name="btnScrapMode" Content="Scrap all user's data" HorizontalAlignment="Left" Margin="809,464,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapMode_Click"/>
+        <Button x:Name="btnScrapModeStop" Content="Pause Scrapping" HorizontalAlignment="Left" Margin="809,495,0,0" VerticalAlignment="Top" Width="113" Height="26" IsEnabled="False" Click="btnScrapModeStop_Click"/>
+        <TextBox x:Name="txtUserInfo" IsReadOnly="True" HorizontalAlignment="Left" Height="97" Margin="700,424,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104"/>
+        <TextBox x:Name="txtStartRange" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="809,424,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="54" MaxLength="6" TextAlignment="Center" FontWeight="Bold"/>
+        <TextBox x:Name="txtEndRange" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="868,424,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="54" MaxLength="6" TextAlignment="Center" FontWeight="Bold"/>
+        <Label x:Name="label" Content="to" HorizontalAlignment="Left" Margin="855,434,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-21.35"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
     </Grid>
 </Window>

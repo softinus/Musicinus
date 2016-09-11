@@ -17,3 +17,4 @@ C:\Users\fanta\Documents\GitHub\Musicinus\MusicMate\obj\Release\MusicMate.Proper
 C:\Users\fanta\Documents\GitHub\Musicinus\MusicMate\obj\Release\MusicMate.csproj.GenerateResource.Cache
 C:\Users\fanta\Documents\GitHub\Musicinus\MusicMate\obj\Release\MusicMate.exe
 C:\Users\fanta\Documents\GitHub\Musicinus\MusicMate\obj\Release\MusicMate.pdb
+C:\Users\fanta\Documents\GitHub\Musicinus\MusicMate\obj\Release\MusicMate.csprojResolveAssemblyReference.cache

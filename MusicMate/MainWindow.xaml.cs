@@ -133,8 +133,8 @@ namespace MusicMate
                 m_eLoginStatus = value;
                 btnStatus.Content = value.ToString();
 
-
-                if (value != ELoginStatus.NotReady)
+                
+                if (value != ELoginStatus.NotReady) // scrap mode activate only when is ready
                 {
                     btnScrapMode.IsEnabled = true;
                 }
@@ -144,7 +144,7 @@ namespace MusicMate
 
                 if (value == ELoginStatus.NotReady ||
                    value == ELoginStatus.ReadyToFind ||
-                   value == ELoginStatus.EverythingFound)
+                   value == ELoginStatus.EverythingFound)   // stop button de-activate when the app found sth or not ready
                 {
                     btnScrapModeStop.IsEnabled = false;
                     
@@ -197,8 +197,21 @@ namespace MusicMate
 
         private void btnScrapMode_Click(object sender, RoutedEventArgs e)
         {
-            if(bMultipleScrapMode == false)
-                MutipleScrapByRange(470, 10000);
+            if (bMultipleScrapMode == false)
+            {
+                if(string.IsNullOrEmpty( txtStartRange.Text.Trim()) ||
+                    string.IsNullOrEmpty(txtEndRange.Text.Trim()))
+                {
+                    System.Windows.Forms.MessageBox.Show("Fill in the numbers.");
+                    return;
+                }
+                txtStartRange.IsEnabled = false;
+                txtEndRange.IsEnabled = false;
+
+                int nStartRange = Convert.ToInt32(txtStartRange.Text);
+                int nEndRange = Convert.ToInt32(txtEndRange.Text);
+                MutipleScrapByRange(nStartRange, nEndRange);
+            }
         }
 
 
@@ -212,11 +225,11 @@ namespace MusicMate
         {
             if(_nMax <= _nMin)
             {
-                System.Windows.Forms.MessageBox.Show("error");
+                System.Windows.Forms.MessageBox.Show("Mininum number should be lower than maxinum number.");
                 return;
             }
 
-            sb.AppendLine("key,nickname,description,total_songs,total_playlists,total_friends,song_name,artist,album");
+            sb.AppendLine("key|nickname|description|total_songs|total_playlists|total_friends|song_name|artist|album");
             bMultipleScrapMode = true;
             for (int i=_nMin; i<=_nMax; ++i)
             {
@@ -236,7 +249,7 @@ namespace MusicMate
                 }
             }
             bMultipleScrapMode = false;
-            File.WriteAllText("scrapped.csv", sb.ToString());
+            File.WriteAllText("scrapped_"+txtStartRange.Text + "_to_"+txtEndRange.Text+".csv", sb.ToString(), Encoding.UTF8);
             sb.Clear();
         }
 
@@ -323,8 +336,8 @@ namespace MusicMate
             {
                 foreach (SongListItem SLI in lstFavorites.Items)
                 {
-                    sb.AppendLine(UserInfo.BuildTheString(",")+
-                        ","+ SLI.Name +","+ SLI.Artist +","+ SLI.Album);
+                    sb.AppendLine(UserInfo.BuildTheString("|")+
+                        "|"+ SLI.Name +"|"+ SLI.Artist +"|"+ SLI.Album);
                 }
             }
 
@@ -518,6 +531,12 @@ namespace MusicMate
                 //Console.WriteLine("Entered the password");
             }
         }
+        
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
-    }
+}
 }
